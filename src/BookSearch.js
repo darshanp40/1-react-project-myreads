@@ -1,14 +1,20 @@
 import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import BookComponent from './BookComponent'
+import { search } from './BooksAPI';
 
 class BookSearch extends Component {
     state = {
         searchText: "",
-        books:[]
+        books:[],
+        booksInShelf: []
     }
     searchBook = (event) => {
         var searchText = event.target.value;
+        this.setState({
+            searchText: searchText
+        });
+
         if (searchText.length !== 0) {
             BooksAPI.search(searchText, 5).then((response) => {
             if (response.length > 0) {
@@ -23,7 +29,7 @@ class BookSearch extends Component {
             this.setState(
                 {
                     books: [], 
-                    query: ''
+                    searchText: ''
                 }
             );
         }
@@ -31,7 +37,19 @@ class BookSearch extends Component {
     changeBookShelf = function() {
 
     }
-
+    componentDidMount = function() {
+        var booksInShelf = this.props.booksInShelf.map((book)=>{return book.title});
+        this.setState({
+            booksInShelf:booksInShelf
+        });
+    }
+    handleBookChange(event, book) {
+        this.props.handleChange(event, book);
+        var booksInShelf = this.props.booksInShelf.map((book)=>{return book.title});
+        this.setState({
+            booksInShelf:booksInShelf
+        });
+    }
     render() {
         return (
             <div className="search-books">
@@ -53,11 +71,15 @@ class BookSearch extends Component {
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {this.state.books.map((book, index) => {
-                            return(
-                                <li key={index}>
-                                <BookComponent handleChange={(event)=>(this.handleBookChange(event,book))} bookParameters={book}/>
-                                </li>
-                            )
+                            console.log(this.state.booksInShelf);
+                            if(this.state.booksInShelf.indexOf(book.title) === -1) {
+                                console.log(book.title);
+                                return(
+                                    <li key={index}>
+                                    <BookComponent handleChange={(event)=>(this.handleBookChange(event,book))} bookParameters={book}/>
+                                    </li>
+                                )
+                            }
                         })}
                     </ol>
                 </div>

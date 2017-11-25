@@ -27,6 +27,7 @@ class BooksApp extends React.Component {
   }
   handleBookChange(event, book) {
     BooksAPI.update(book, event.target.value).then(() => {
+      console.log(this);
       this.getBooks()
     });
   }
@@ -34,7 +35,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <BookSearch clickHandler={() => this.setState({ showSearchPage: false })} yyyyyss/>
+          <BookSearch clickHandler={() => this.setState({ showSearchPage: false }) } booksInShelf={this.state.books} handleChange={(event,book) => {this.handleBookChange(event, book)}} />
         ) : (
           <div className="list-books">
             <div className="list-books-title">
