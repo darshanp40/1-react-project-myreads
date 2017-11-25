@@ -20,7 +20,7 @@ const BookComponent = (props) =>
             </div>
         </div>
         <div className="book-title">{props.bookParameters.title}</div>
-        <div className="book-authors">{props.bookParameters.authors.join(", ")}</div>
+        <div className="book-authors">{props.bookParameters.authors ? props.bookParameters.authors.join(", ") : ""}</div>
     </div>
 );
 
