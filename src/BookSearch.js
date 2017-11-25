@@ -38,17 +38,20 @@ class BookSearch extends Component {
 
     }
     componentDidMount = function() {
-        var booksInShelf = this.props.booksInShelf.map((book)=>{return book.title});
+        var booksInShelf = this.props.booksInShelf.filter((book)=>{return (book.shelf !== 'None')});
+        booksInShelf = booksInShelf.map((book)=>{return book.title;});
         this.setState({
             booksInShelf:booksInShelf
         });
     }
     handleBookChange(event, book) {
         this.props.handleChange(event, book);
-        var booksInShelf = this.props.booksInShelf.map((book)=>{return book.title});
-        this.setState({
-            booksInShelf:booksInShelf
-        });
+        if(event.target.value.toLowerCase() !== "none"){
+            this.setState(() => {
+                booksInShelf: this.state.booksInShelf.push(book.title)
+                books: this.state.books.filter((value) =>{return(value.title !== book.title)})
+            });
+        }
     }
     render() {
         return (
