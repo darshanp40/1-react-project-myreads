@@ -7,7 +7,7 @@ const BookComponent = (props) =>
             <div className="book-cover" style={{
             width: 128,
             height:193,
-            backgroundImage: 'url("' + props.bookParameters.imageLinks.smallThumbnail + '")'
+            backgroundImage: 'url("' + (props.bookParameters.imageLinks && props.bookParameters.imageLinks.thumbnail ? props.bookParameters.imageLinks.thumbnail : "") + '")'
             }}></div>
             <div className="book-shelf-changer">
             <select value={props.bookParameters.shelf} onChange={props.handleChange}>

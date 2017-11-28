@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import BookComponent from './BookComponent'
 
@@ -10,15 +11,29 @@ class BookSearch extends Component {
     }
     searchBook = (event) => {
         var searchText = event.target.value;
+
         this.setState({
             searchText: searchText
         });
 
         if (searchText.length !== 0) {
             BooksAPI.search(searchText, 5).then((response) => {
+            var booksInResponse = response, index, shelfIndex;
             if (response.length > 0) {
+                for (index = 0; index < booksInResponse.length; index++) {
+                    booksInResponse[index].shelf = "none";
+                }
+                for (index = 0; index < booksInResponse.length; index++) {
+                    for (shelfIndex = 0; shelfIndex < this.props.booksInShelf.length; shelfIndex++) {
+                       // booksInResponse[index].shelf = "none";
+                        if(booksInResponse[index].id === this.props.booksInShelf[shelfIndex].id) {
+                            booksInResponse[index].shelf = this.props.booksInShelf[shelfIndex].shelf;
+                        }
+                    }
+                }
+                console.log(booksInResponse);
                 this.setState({
-                    books: response
+                    books: booksInResponse
                 }); 
             }
             });
@@ -30,16 +45,6 @@ class BookSearch extends Component {
                 }
             );
         }
-    }
-    changeBookShelf = function() {
-
-    }
-    componentDidMount = function() {
-        var booksInShelf = this.props.booksInShelf.filter((book)=>{return (book.shelf !== 'None')});
-        booksInShelf = booksInShelf.map((book)=>{return book.title;});
-        this.setState({
-            booksInShelf:booksInShelf
-        });
     }
     handleBookChange(event, book) {
         this.props.handleChange(event, book);
@@ -53,7 +58,7 @@ class BookSearch extends Component {
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <a className="close-search" onClick={this.props.clickHandler}>Close</a>
+                    <Link to='/' className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
                     {/*
                         NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -70,23 +75,16 @@ class BookSearch extends Component {
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {this.state.books.map((book, index) => {
-                            console.log(this.state.booksInShelf);
-                            if(this.state.booksInShelf.indexOf(book.title) === -1) {
-                                
-                                console.log(book.title);
-                                return(
-                                    <li key={index}>
+                            return(
+                                <li key={index}>
                                     <BookComponent handleChange={(event)=>(this.handleBookChange(event,book))} bookParameters={book}/>
-                                    </li>
-                                )
-                            }
+                                </li>
+                            )
                         })}
                     </ol>
                 </div>
             </div>
         )
     }
-    
 }
-
 export default BookSearch;

@@ -25,7 +25,6 @@ class ShelfComponent extends Component {
           </div>
         )
     }
-    
 }
 
 export default ShelfComponent;
