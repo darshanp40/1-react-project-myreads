@@ -2,9 +2,7 @@
 
 This app that allows user to select and categorize books as per the selected options from the menu. 
 
-## TL;DR
-
-##How to Run:
+## How to Run:
 
 1. Download and extract the zip.
 2. Run npm install to install the project dependencies.
