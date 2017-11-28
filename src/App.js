@@ -4,6 +4,7 @@ import './App.css'
 import BookComponent from './BookComponent'
 import BookSearch from './BookSearch'
 import * as BooksAPI from './BooksAPI'
+import ShelfComponent from './ShelfCOmponent'
 class BooksApp extends React.Component {
   state = {
     /**
@@ -27,7 +28,6 @@ class BooksApp extends React.Component {
   }
   handleBookChange(event, book) {
     BooksAPI.update(book, event.target.value).then(() => {
-      console.log(this);
       this.getBooks()
     });
   }
@@ -43,54 +43,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {this.state.books.map((book, index) => {
-                        if(book.shelf === "currentlyReading") {
-                          return(
-                            <li key={index}>
-                              <BookComponent handleChange={(event)=>(this.handleBookChange(event,book))} bookParameters={book}/>
-                            </li>
-                          )
-                        }
-                      })}
-                    </ol>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {this.state.books.map((book, index) => {
-                        if(book.shelf === "wantToRead") {
-                          return(
-                            <li key={index}>
-                              <BookComponent handleChange={(event)=>(this.handleBookChange(event,book))} bookParameters={book}/>
-                            </li>
-                          )
-                        }
-                      })}
-                    </ol>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {this.state.books.map((book, index) => {
-                        if(book.shelf === "read") {
-                          return(
-                            <li key={index}>
-                              <BookComponent handleChange={(event)=>(this.handleBookChange(event,book))} bookParameters={book}/>
-                            </li>
-                          )
-                        }
-                      })}
-                    </ol>
-                  </div>
-                </div>
+                <ShelfComponent  handleChange={(event,book)=>(this.handleBookChange(event,book))} shelf="currentlyReading" title="Currently Reading" books={this.state.books} />
+                <ShelfComponent  handleChange={(event,book)=>(this.handleBookChange(event,book))} shelf="wantToRead" title="Want to Read" books={this.state.books} />
+                <ShelfComponent  handleChange={(event,book)=>(this.handleBookChange(event,book))} shelf="read" title="Read" books={this.state.books} />
               </div>
             </div>
             <div className="open-search">

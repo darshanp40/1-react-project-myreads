@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import BookComponent from './BookComponent'
-import { search } from './BooksAPI';
 
 class BookSearch extends Component {
     state = {
@@ -18,8 +17,6 @@ class BookSearch extends Component {
         if (searchText.length !== 0) {
             BooksAPI.search(searchText, 5).then((response) => {
             if (response.length > 0) {
-                //response = this.changeBookShelf(response);
-                console.log(response);
                 this.setState({
                     books: response
                 }); 
@@ -48,7 +45,6 @@ class BookSearch extends Component {
         this.props.handleChange(event, book);
         if(event.target.value.toLowerCase() !== "none"){
             this.setState(() => {
-                booksInShelf: this.state.booksInShelf.push(book.title)
                 books: this.state.books.filter((value) =>{return(value.title !== book.title)})
             });
         }
@@ -76,6 +72,7 @@ class BookSearch extends Component {
                         {this.state.books.map((book, index) => {
                             console.log(this.state.booksInShelf);
                             if(this.state.booksInShelf.indexOf(book.title) === -1) {
+                                
                                 console.log(book.title);
                                 return(
                                     <li key={index}>
