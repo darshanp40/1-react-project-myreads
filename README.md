@@ -10,7 +10,7 @@ This app that allows user to select and categorize books as per the selected opt
 2. Run npm install to install the project dependencies.
 3. Run the app using npm start.
 4. App can be seen at: localhost:3000.
-ssssssssssssssssssssssssssssssssssssssss
+
 ## Backend Server
 
 To simplify your development process, we've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
